@@ -1,7 +1,7 @@
 const postgres = require('postgres');
 
 // Configuration de connexion Supabase
-const connectionString = 'postgresql://postgres.gmxbcamuwegdspsfkscp:krLo2FyZVd5VQiNk@aws-0-eu-west-3.pooler.supabase.com:6543/postgres';
+const connectionString = '[Votre chaîne de connexion]';
 
 const sql = postgres(connectionString, {
   ssl: 'require',
