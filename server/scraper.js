@@ -121,7 +121,7 @@ class QuoteScraper {
           
           if (text && author) {
             quotes.push({
-              text: text.replace(/^[""]|[""]$/g, ''), //Supprime les citations deja existantes Remove surrounding quotes
+              text: text.replace(/^[""]|[""]$/g, ''), //Supprime les citations deja existantes 
               author,
               tags: tags.length > 0 ? tags : null,
               sourceUrl: url
