@@ -2,7 +2,6 @@ const { createServer } = require('http');
 const { sql } = require('./database');
 const { QuoteScraper } = require('./scraper');
 
-// Global scraping state
 let currentScraper = null;
 let scrapingProgress = null;
 
@@ -73,7 +72,7 @@ async function registerRoutes(app) {
     }
   });
 
-  // Get single quote by ID
+ 
   app.get('/api/quotes/:id', async (req, res) => {
     try {
       const id = parseInt(req.params.id);
@@ -106,7 +105,7 @@ async function registerRoutes(app) {
         return res.status(400).json({ error: 'Texte et auteur sont obligatoires' });
       }
       
-      // Check if quote already exists
+      
       const existing = await sql`
         SELECT id FROM quotes WHERE text = ${text} AND author = ${author}
       `;
@@ -292,7 +291,7 @@ async function registerRoutes(app) {
             quotesToInsert = newQuotes;
           }
           
-          // Bulk insert new quotes
+          
           if (quotesToInsert.length > 0) {
             for (const quote of quotesToInsert) {
               await sql`
