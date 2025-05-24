@@ -14,10 +14,10 @@ app.use(express.static('.'));
 
 async function startServer() {
   try {
-    // Setup routes
+    
     const server = await registerRoutes(app);
     
-    // Start server
+    
     server.listen(port, '0.0.0.0', () => {
       console.log(`Serveur QuoteScraper démarré sur http://localhost:${port}`);
     });
