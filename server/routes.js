@@ -7,7 +7,7 @@ let currentScraper = null;
 let scrapingProgress = null;
 
 async function registerRoutes(app) {
-  //Recupere toutes les citations avec pagination et filtres Get all quotes with pagination and filters
+  //Recupere toutes les citations avec pagination et filtres 
   app.get('/api/quotes', async (req, res) => {
     try {
       const page = parseInt(req.query.page) || 1;
@@ -97,7 +97,7 @@ async function registerRoutes(app) {
     }
   });
 
-  // Create new quote
+  // Créer de nouvelles citations
   app.post('/api/quotes', async (req, res) => {
     try {
       const { text, author, tags, sourceUrl } = req.body;
@@ -130,7 +130,7 @@ async function registerRoutes(app) {
     }
   });
 
-  // Update quote
+  // Modifier une citation
   app.put('/api/quotes/:id', async (req, res) => {
     try {
       const id = parseInt(req.params.id);
@@ -161,7 +161,7 @@ async function registerRoutes(app) {
     }
   });
 
-  // Delete quote
+  // Supprimer une citation
   app.delete('/api/quotes/:id', async (req, res) => {
     try {
       const id = parseInt(req.params.id);
@@ -185,7 +185,7 @@ async function registerRoutes(app) {
     }
   });
 
-  // Get authors
+  // Recuperer les auteurs
   app.get('/api/authors', async (req, res) => {
     try {
       const authors = await sql`
@@ -203,7 +203,7 @@ async function registerRoutes(app) {
     }
   });
 
-  // Get tags
+  // Recuperer les tags
   app.get('/api/tags', async (req, res) => {
     try {
       const tags = await sql`
@@ -222,7 +222,7 @@ async function registerRoutes(app) {
     }
   });
 
-  // Get statistics
+  // Recuperer les statistiques
   app.get('/api/stats', async (req, res) => {
     try {
       const [quotesCount, authorsCount, tagsCount] = await Promise.all([
@@ -244,7 +244,7 @@ async function registerRoutes(app) {
     }
   });
 
-  // Start scraping
+  // Commencer le scrapping
   app.post('/api/scraper/start', async (req, res) => {
     try {
       if (currentScraper) {
@@ -272,7 +272,6 @@ async function registerRoutes(app) {
       
       res.json({ message: 'Scraping démarré', progress: scrapingProgress });
       
-      // Start scraping in background
       currentScraper.scrapeQuotes((progress) => {
         scrapingProgress = { ...progress, startTime: scrapingProgress.startTime };
       }).then(async (result) => {
@@ -325,7 +324,6 @@ async function registerRoutes(app) {
     }
   });
 
-  // Get scraping progress
   app.get('/api/scraper/progress', (req, res) => {
     if (!scrapingProgress) {
       return res.json({ 
@@ -342,7 +340,6 @@ async function registerRoutes(app) {
     });
   });
 
-  // Stop scraping
   app.post('/api/scraper/stop', (req, res) => {
     if (!currentScraper) {
       return res.status(404).json({ error: 'Aucun scraping en cours' });
@@ -354,7 +351,6 @@ async function registerRoutes(app) {
     res.json({ message: 'Scraping arrêté' });
   });
 
-  // Export quotes
   app.get('/api/export', async (req, res) => {
     try {
       const format = req.query.format || 'json';
