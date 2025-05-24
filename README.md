@@ -37,7 +37,7 @@ Une application web full-stack moderne pour scraper et gérer des citations depu
 
 1. **Cloner le repository**
 ```bash
-git clone https://github.com/mehdi-ahd/scrapping
+git clone https://github.com/Mehdi-ahd/scrapping
 cd scrapping
 ```
 
