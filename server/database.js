@@ -1,7 +1,8 @@
 const postgres = require('postgres');
-
+require('dotenv').config();
+const dburl = process.env.DB_URL;
 // Configuration de connexion Supabase
-const connectionString = '[Votre chaîne de connexion]';
+const connectionString = `${dburl}`;
 
 const sql = postgres(connectionString, {
   ssl: 'require',
