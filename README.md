@@ -165,7 +165,6 @@ L'application QuoteScraper a été développée avec une approche full-stack min
 ## Problèmes Connus et Améliorations Futures
 
 ### Problèmes Identifiés
-- **Erreur SASL_SIGNATURE_MISMATCH** : Problème d'authentification Supabase intermittent
 - **Configuration SSL** : Paramètres de connexion parfois instables
 - **Gestion des timeouts** : Optimisation nécessaire pour les requêtes longues
 
@@ -182,8 +181,3 @@ L'application QuoteScraper a été développée avec une approche full-stack min
 ## Auteur
 Créé par Mehdi PATINDE
 
-## Remerciements
-- [quotes.toscrape.com](http://quotes.toscrape.com) pour les données de test
-- [Bootstrap](https://getbootstrap.com) pour l'interface
-- [Supabase](https://supabase.com) pour la base de données
-- [Cheerio](https://cheerio.js.org) pour le web scraping
