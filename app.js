@@ -1,8 +1,7 @@
-// QuoteScraper Application - Pure JavaScript
 (function() {
     'use strict';
     
-    // Application State Management
+    
     const AppState = {
         currentView: 'dashboard',
         quotes: [],
@@ -35,7 +34,7 @@
         }
     };
 
-    // API Helper Functions
+    
     async function apiRequest(method, url, data = null) {
         try {
             const options = {
@@ -63,7 +62,7 @@
         }
     }
 
-    // UI Helper Functions
+    
     function showToast(message, type = 'success') {
         const toastContainer = document.querySelector('.toast-container') || createToastContainer();
         const toastId = 'toast-' + Date.now();
@@ -116,7 +115,7 @@
         return div.innerHTML;
     }
 
-    // Navigation Management
+    
     function initializeNavigation() {
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
@@ -129,18 +128,17 @@
     }
 
     function showSection(sectionName) {
-        // Hide all sections
+        
         document.querySelectorAll('[id$="-section"]').forEach(section => {
             section.style.display = 'none';
         });
         
-        // Show target section
+        
         const targetSection = document.getElementById(`${sectionName}-section`);
         if (targetSection) {
             targetSection.style.display = 'block';
             AppState.currentView = sectionName;
             
-            // Load data for the section
             switch (sectionName) {
                 case 'dashboard':
                     loadDashboard();
@@ -162,19 +160,16 @@
         activeLink.classList.add('active');
     }
 
-    // Dashboard Functions
+    
     async function loadDashboard() {
         try {
-            // Load statistics
             const stats = await apiRequest('GET', '/api/stats');
             AppState.stats = stats;
             updateStatsDisplay();
             
-            // Load recent quotes
             const quotesData = await apiRequest('GET', '/api/quotes?limit=5');
             renderRecentQuotes(quotesData.quotes);
             
-            // Load filters data
             await loadFiltersData();
             
         } catch (error) {
@@ -244,7 +239,7 @@
         `).join('');
     }
 
-    // Quotes Management
+    
     async function loadQuotes() {
         try {
             const params = new URLSearchParams({
@@ -320,7 +315,6 @@
         const { current, totalPages } = AppState.pagination;
         let html = '';
         
-        // Previous button
         html += `
             <li class="page-item ${current === 1 ? 'disabled' : ''}">
                 <a class="page-link" href="#" onclick="changePage(${current - 1})" ${current === 1 ? 'tabindex="-1"' : ''}>
@@ -329,7 +323,6 @@
             </li>
         `;
         
-        // Page numbers
         for (let i = Math.max(1, current - 2); i <= Math.min(totalPages, current + 2); i++) {
             html += `
                 <li class="page-item ${i === current ? 'active' : ''}">
@@ -338,7 +331,6 @@
             `;
         }
         
-        // Next button
         html += `
             <li class="page-item ${current === totalPages ? 'disabled' : ''}">
                 <a class="page-link" href="#" onclick="changePage(${current + 1})" ${current === totalPages ? 'tabindex="-1"' : ''}>
@@ -350,7 +342,7 @@
         paginationContainer.innerHTML = html;
     }
 
-    // Quote Modal Functions
+    
     window.showAddQuoteModal = function() {
         AppState.modal.isEditing = false;
         AppState.modal.currentQuote = null;
@@ -379,7 +371,6 @@
             
             title.textContent = 'Modifier la citation';
             
-            // Populate form
             form.quoteText.value = quote.text;
             form.authorName.value = quote.author;
             form.quoteTags.value = quote.tags ? quote.tags.join(', ') : '';
@@ -398,12 +389,10 @@
             const quote = await apiRequest('GET', `/api/quotes/${id}`);
             
             const modal = document.getElementById('quoteDetailModal');
-            
-            // Populate modal content
+        
             modal.querySelector('#detail-quote-text').textContent = `"${quote.text}"`;
             modal.querySelector('#detail-author-name').textContent = quote.author;
             
-            // Tags
             const tagsContainer = modal.querySelector('#detail-tags-container');
             if (quote.tags && quote.tags.length > 0) {
                 modal.querySelector('#detail-tags').innerHTML = quote.tags.map(tag => 
@@ -414,7 +403,6 @@
                 tagsContainer.style.display = 'none';
             }
             
-            // Source URL
             const sourceContainer = modal.querySelector('#detail-source-container');
             if (quote.sourceUrl) {
                 modal.querySelector('#detail-source-url').href = quote.sourceUrl;
@@ -454,7 +442,6 @@
             const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
             modal.hide();
             
-            // Reload current view
             if (AppState.currentView === 'dashboard') {
                 loadDashboard();
             } else if (AppState.currentView === 'quotes') {
@@ -466,7 +453,6 @@
         }
     };
 
-    // Form Handling
     function initializeFormValidation() {
         const form = document.getElementById('quoteForm');
         if (form) {
@@ -523,7 +509,6 @@
         const form = e.target;
         const submitBtn = form.querySelector('button[type="submit"]');
         
-        // Validate all fields
         let isFormValid = true;
         form.querySelectorAll('input, textarea').forEach(field => {
             if (!validateField(field)) {
@@ -554,7 +539,6 @@
             const modal = bootstrap.Modal.getInstance(document.getElementById('quoteModal'));
             modal.hide();
             
-            // Reload current view
             if (AppState.currentView === 'dashboard') {
                 loadDashboard();
             } else if (AppState.currentView === 'quotes') {
@@ -568,14 +552,12 @@
         }
     };
 
-    // Scraper Functions
     async function loadScraperProgress() {
         try {
             const progress = await apiRequest('GET', '/api/scraper/progress');
             updateScraperUI(progress);
             
             if (progress.isActive) {
-                // Poll for updates every 2 seconds
                 setTimeout(loadScraperProgress, 2000);
             }
         } catch (error) {
@@ -603,7 +585,6 @@
             statusEl.innerHTML = '<span class="status-indicator status-warning"></span>En attente...';
         }
         
-        // Update elapsed time
         if (progress.elapsedTime) {
             const minutes = Math.floor(progress.elapsedTime / 60);
             const seconds = progress.elapsedTime % 60;
@@ -628,7 +609,6 @@
             return `<div class="${logClass}">${escapeHtml(log)}</div>`;
         }).join('');
         
-        // Scroll to bottom
         container.scrollTop = container.scrollHeight;
     }
 
@@ -657,7 +637,6 @@
             await apiRequest('POST', '/api/scraper/start', config);
             showToast('Scraping démarré avec succès');
             
-            // Start polling for progress
             setTimeout(loadScraperProgress, 1000);
             
         } catch (error) {
@@ -675,7 +654,6 @@
         }
     };
 
-    // Filters and Search
     async function loadFiltersData() {
         try {
             const [authorsData, tagsData] = await Promise.all([
@@ -746,7 +724,6 @@
         AppState.pagination.current = 1;
         showSection('quotes');
         
-        // Update filter UI
         const tagFilter = document.getElementById('tag-filter');
         if (tagFilter) {
             tagFilter.value = tagName;
@@ -755,7 +732,6 @@
         loadQuotes();
     };
 
-    // Utility Functions
     function debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -774,7 +750,6 @@
         loadQuotes();
     };
 
-    // Export functionality
     window.exportQuotes = async function(format = 'json') {
         try {
             const response = await fetch(`/api/export?format=${format}`);
@@ -796,24 +771,18 @@
         }
     };
 
-    // Initialize Application
     function initializeApp() {
         console.log('QuoteScraper application initialized successfully');
         
-        // Initialize navigation
         initializeNavigation();
         
-        // Initialize form validation
         initializeFormValidation();
-        
-        // Initialize filters
+       
         initializeFilters();
         
-        // Load initial dashboard
         loadDashboard();
     }
 
-    // Start the application when DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initializeApp);
     } else {
