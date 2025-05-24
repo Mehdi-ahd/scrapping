@@ -275,7 +275,6 @@ async function registerRoutes(app) {
         scrapingProgress = { ...progress, startTime: scrapingProgress.startTime };
       }).then(async (result) => {
         try {
-          // Filter out existing quotes if skipExisting is true
           let quotesToInsert = result.quotes;
           
           if (skipExisting) {
