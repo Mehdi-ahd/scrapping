@@ -1,0 +1,16 @@
+# Dossiers à ignorer
+node_modules/
+dist/
+build/
+
+# Fichiers de configuration/développement
+.env
+.DS_Store
+*.log
+
+# Éditeurs
+.vscode/
+.idea/
+
+# Systèmes d’exploitation
+Thumbs.db
