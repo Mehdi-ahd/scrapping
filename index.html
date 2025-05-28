@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* CSS Variables Override for Bootstrap Theme */
+        /* Variables CSS personnalisées pour le thème Bootstrap */
         :root {
           --bs-primary: #0d6efd;
           --bs-primary-rgb: 13, 110, 253;
@@ -20,437 +20,1221 @@
           --bs-light: #f8f9fa;
           --bs-dark: #212529;
           
-          /* Custom variables */
+          /* Variables personnalisées */
           --quote-border-color: #0d6efd;
           --hover-shadow: rgba(0, 0, 0, 0.15);
           --text-muted: #6c757d;
           --border-light: #dee2e6;
+          --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          --gradient-success: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+          --gradient-warning: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
 
-        /* Global Styles */
+        /* Styles globaux */
         body {
-          background-color: var(--bs-light);
+          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
           line-height: 1.6;
+          overflow-x: hidden;
+          min-height: 100vh;
         }
 
-        /* Quote Card Styles */
-        .quote-card {
-          border-left: 4px solid var(--quote-border-color);
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-          border: 1px solid var(--border-light);
-          margin-bottom: 1rem;
+        /* Navigation améliorée */
+        .navbar {
+          background: var(--gradient-primary) !important;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+          backdrop-filter: blur(10px);
+          z-index: 1030;
         }
 
-        .quote-card:hover {
+        .navbar-brand {
+          font-weight: 700;
+          font-size: 1.5rem;
+          text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .navbar-brand i {
+          animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.1); }
+        }
+
+        .nav-link {
+          font-weight: 500;
+          transition: all 0.3s ease;
+          border-radius: 8px;
+          margin: 0 4px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .nav-link::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: rgba(255,255,255,0.2);
+          transition: left 0.3s ease;
+        }
+
+        .nav-link:hover::before,
+        .nav-link.active::before {
+          left: 0;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+          background: rgba(255,255,255,0.2);
           transform: translateY(-2px);
-          box-shadow: 0 0.5rem 1rem var(--hover-shadow);
+        }
+
+        /* Navigation mobile */
+        @media (max-width: 991.98px) {
+          .navbar-collapse {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            margin: 1rem -1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+          }
+          
+          .navbar-collapse .nav-link {
+            color: var(--bs-dark) !important;
+            margin: 4px 0;
+          }
+        }
+
+        /* Conteneur principal */
+        .main-container {
+          min-height: calc(100vh - 76px);
+          padding-top: 1rem;
+        }
+
+        /* Cartes améliorées */
+        .card {
+          border: none;
+          border-radius: 16px;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+          backdrop-filter: blur(10px);
+          background: rgba(255,255,255,0.9);
+          transition: all 0.3s ease;
+          overflow: hidden;
+        }
+
+        .card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+          background: rgba(255,255,255,0.8);
+          border-bottom: 2px solid rgba(13, 110, 253, 0.1);
+          padding: 1.5rem;
+          font-weight: 600;
+        }
+
+        /* Cartes de citations avec design amélioré */
+        .quote-card {
+          border-left: 5px solid transparent;
+          background: linear-gradient(145deg, #ffffff, #f8f9fa);
+          margin-bottom: 1.5rem;
+          position: relative;
+          overflow: visible;
+        }
+
+        .quote-card::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 5px;
+          background: var(--gradient-primary);
+          border-radius: 0 8px 8px 0;
+          transition: width 0.3s ease;
+        }
+
+        .quote-card:hover::before {
+          width: 8px;
+        }
+
+        .quote-card:nth-child(odd)::before {
+          background: var(--gradient-success);
+        }
+
+        .quote-card:nth-child(even)::before {
+          background: var(--gradient-warning);
         }
 
         .quote-text {
           font-style: italic;
           font-size: 1.1rem;
-          line-height: 1.6;
-          color: #495057;
+          line-height: 1.8;
+          color: #2c3e50;
           margin-bottom: 1rem;
+          position: relative;
+          padding-left: 2rem;
+        }
+
+        .quote-text::before {
+          content: '"';
+          position: absolute;
+          left: 0;
+          top: -10px;
+          font-size: 3rem;
+          color: var(--bs-primary);
+          opacity: 0.3;
+          font-family: Georgia, serif;
         }
 
         .author-name {
           font-weight: 600;
           color: var(--bs-primary);
+          font-size: 1rem;
+          position: relative;
+          display: inline-block;
         }
 
+        .author-name::after {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background: var(--bs-primary);
+          transition: width 0.3s ease;
+        }
+
+        .quote-card:hover .author-name::after {
+          width: 100%;
+        }
+
+        /* Système de tags amélioré */
         .tag-badge {
-          font-size: 0.75rem;
-          margin: 0.125rem;
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-          background-color: white;
-          border-right: 1px solid var(--border-light);
-          min-height: calc(100vh - 56px);
-        }
-
-        .main-content {
-          background-color: white;
-          min-height: calc(100vh - 56px);
-        }
-
-        /* Stats Card */
-        .stats-card {
-          border: none;
-          background: linear-gradient(135deg, var(--bs-primary), #0b5ed7);
+          background: var(--gradient-primary);
           color: white;
+          border: none;
+          padding: 0.4rem 0.8rem;
+          border-radius: 20px;
+          font-size: 0.75rem;
+          font-weight: 500;
+          margin: 0.2rem;
+          transition: all 0.3s ease;
+          display: inline-block;
+          position: relative;
+          overflow: hidden;
         }
 
-        /* Action Buttons */
-        .action-buttons {
-          opacity: 0;
-          transition: opacity 0.2s ease-in-out;
+        .tag-badge::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: rgba(255,255,255,0.2);
+          transition: left 0.3s ease;
         }
 
-        .quote-card:hover .action-buttons {
-          opacity: 1;
+        .tag-badge:hover::before {
+          left: 0;
         }
 
-        /* Log Container */
-        .log-container {
-          background-color: #1a1a1a;
-          color: #ffffff;
-          border-radius: 0.375rem;
-          padding: 1rem;
-          font-family: 'Courier New', monospace;
-          font-size: 0.875rem;
-          height: 300px;
-          overflow-y: auto;
+        .tag-badge:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        .log-success { color: #28a745; }
-        .log-error { color: #dc3545; }
-        .log-warning { color: #ffc107; }
-        .log-info { color: #17a2b8; }
+        /* Cartes de statistiques */
+        .stats-card {
+          background: var(--gradient-primary);
+          color: white;
+          border-radius: 20px;
+          position: relative;
+          overflow: hidden;
+          height: 100%;
+        }
 
-        /* Search Box */
+        .stats-card::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          right: -20%;
+          width: 100px;
+          height: 100px;
+          background: rgba(255,255,255,0.1);
+          border-radius: 50%;
+          transition: all 0.3s ease;
+        }
+
+        .stats-card:hover::before {
+          top: -30%;
+          right: -10%;
+          width: 120px;
+          height: 120px;
+        }
+
+        .stats-card:nth-child(2) {
+          background: var(--gradient-success);
+        }
+
+        .stats-card:nth-child(3) {
+          background: var(--gradient-warning);
+        }
+
+        .stats-card .card-body {
+          position: relative;
+          z-index: 2;
+          padding: 2.5rem 2rem;
+        }
+
+        .stats-card i {
+          margin-bottom: 1rem;
+          opacity: 0.9;
+          animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+
+        .stats-card h3 {
+          font-size: 2.5rem;
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+          text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Recherche et filtres améliorés */
+        .search-filters-card {
+          background: rgba(255,255,255,0.95);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255,255,255,0.3);
+        }
+
         .search-box {
-          border-radius: 50px;
+          border-radius: 25px;
           border: 2px solid #e9ecef;
-          padding: 0.75rem 1.5rem;
-          transition: border-color 0.15s ease-in-out;
+          padding: 0.8rem 1.5rem;
+          transition: all 0.3s ease;
+          font-size: 0.95rem;
+          background: rgba(255,255,255,0.9);
+          position: relative;
         }
 
         .search-box:focus {
           border-color: var(--bs-primary);
-          box-shadow: none;
+          box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+          transform: translateY(-2px);
+          background: white;
         }
 
-        /* Progress Bar */
-        .progress {
-          height: 20px;
+        .form-select {
+          border-radius: 12px;
+          border: 2px solid #e9ecef;
+          transition: all 0.3s ease;
+          background: rgba(255,255,255,0.9);
         }
 
-        /* Status Indicators */
-        .status-indicator {
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          margin-right: 0.5rem;
+        .form-select:focus {
+          border-color: var(--bs-primary);
+          box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
         }
 
-        .status-success { background-color: var(--bs-success); }
-        .status-error { background-color: var(--bs-danger); }
-        .status-warning { background-color: var(--bs-warning); }
-        .status-info { background-color: var(--bs-info); }
-
-        /* Animation for new elements */
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
+        /* Tableau amélioré */
+        .table-responsive {
+          border-radius: 16px;
+          overflow: hidden;
         }
 
-        .fade-in {
-          animation: fadeIn 0.3s ease-out;
+        .table {
+          margin-bottom: 0;
+          background: white;
         }
 
-        /* Custom scrollbar */
+        .table thead th {
+          background: var(--gradient-primary);
+          color: white;
+          border: none;
+          padding: 1.2rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          font-size: 0.875rem;
+          letter-spacing: 0.5px;
+        }
+
+        .table tbody td {
+          padding: 1rem;
+          vertical-align: middle;
+          border-color: rgba(0,0,0,0.05);
+          transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover td {
+          background: rgba(13, 110, 253, 0.05);
+          transform: scale(1.01);
+        }
+
+        /* Amélioration des boutons d'action */
+        .action-buttons {
+          opacity: 0;
+          transition: all 0.3s ease;
+          transform: translateY(10px);
+        }
+
+        .quote-card:hover .action-buttons,
+        tr:hover .action-buttons {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+          .action-buttons {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .btn-group .btn {
+          border-radius: 8px;
+          margin: 0 2px;
+          transition: all 0.3s ease;
+        }
+
+        .btn-group .btn:hover {
+          transform: translateY(-2px);
+        }
+
+        /* Amélioration du conteneur de logs */
+        .log-container {
+          background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+          color: #ffffff;
+          border-radius: 16px;
+          padding: 1.5rem;
+          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+          font-size: 0.875rem;
+          height: 350px;
+          overflow-y: auto;
+          border: 2px solid #333;
+          position: relative;
+          box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .log-container::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: var(--gradient-primary);
+          border-radius: 16px 16px 0 0;
+        }
+
         .log-container::-webkit-scrollbar {
           width: 8px;
         }
 
         .log-container::-webkit-scrollbar-track {
           background: #2d2d2d;
-        }
-
-        .log-container::-webkit-scrollbar-thumb {
-          background: #555;
           border-radius: 4px;
         }
 
-        .log-container::-webkit-scrollbar-thumb:hover {
-          background: #777;
+        .log-container::-webkit-scrollbar-thumb {
+          background: var(--gradient-primary);
+          border-radius: 4px;
         }
 
-        /* Empty state styles */
+        .log-success { 
+          color: #4ade80; 
+          font-weight: 600;
+          text-shadow: 0 0 5px rgba(74, 222, 128, 0.3);
+        }
+        .log-error { 
+          color: #f87171; 
+          font-weight: 600;
+          text-shadow: 0 0 5px rgba(248, 113, 113, 0.3);
+        }
+        .log-warning { 
+          color: #fbbf24; 
+          font-weight: 600;
+          text-shadow: 0 0 5px rgba(251, 191, 36, 0.3);
+        }
+        .log-info { 
+          color: #60a5fa; 
+          font-weight: 600;
+          text-shadow: 0 0 5px rgba(96, 165, 250, 0.3);
+        }
+
+        /* Barre de progression améliorée */
+        .progress {
+          height: 28px;
+          border-radius: 14px;
+          overflow: hidden;
+          background: rgba(233, 236, 239, 0.5);
+          backdrop-filter: blur(10px);
+          position: relative;
+        }
+
+        .progress-bar {
+          background: var(--gradient-primary);
+          transition: width 0.6s ease;
+          font-weight: 600;
+          font-size: 0.875rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .progress-bar::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: rgba(255,255,255,0.2);
+          animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+          0% { left: -100%; }
+          100% { left: 100%; }
+        }
+
+        /* Boutons améliorés */
+        .btn {
+          border-radius: 12px;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          font-size: 0.875rem;
+        }
+
+        .btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: rgba(255,255,255,0.2);
+          transition: left 0.3s ease;
+        }
+
+        .btn:hover::before {
+          left: 0;
+        }
+
+        .btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+          background: var(--gradient-primary);
+          border: none;
+        }
+
+        .btn-success {
+          background: var(--gradient-success);
+          border: none;
+        }
+
+        .btn-danger {
+          background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+          border: none;
+        }
+
+        /* Modales améliorées */
+        .modal-content {
+          border: none;
+          border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+          backdrop-filter: blur(10px);
+          background: rgba(255,255,255,0.95);
+        }
+
+        .modal-header {
+          border-bottom: 2px solid rgba(13, 110, 253, 0.1);
+          padding: 2rem;
+          background: var(--gradient-primary);
+          color: white;
+          border-radius: 20px 20px 0 0;
+        }
+
+        .modal-title {
+          font-weight: 700;
+          text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn-close {
+          filter: invert(1);
+          opacity: 0.8;
+        }
+
+        .modal-body {
+          padding: 2rem;
+        }
+
+        .modal-footer {
+          padding: 2rem;
+          border-top: 2px solid rgba(13, 110, 253, 0.1);
+        }
+
+        /* Pagination améliorée */
+        .pagination {
+          gap: 0.5rem;
+        }
+
+        .page-link {
+          border-radius: 12px;
+          border: 2px solid transparent;
+          margin: 0;
+          transition: all 0.3s ease;
+          font-weight: 500;
+        }
+
+        .page-link:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .page-item.active .page-link {
+          background: var(--gradient-primary);
+          border-color: transparent;
+        }
+
+        /* État vide amélioré */
         .empty-state {
           text-align: center;
-          padding: 3rem 1rem;
+          padding: 4rem 2rem;
           color: var(--text-muted);
         }
 
-        .empty-state .fa-quote-left {
-          color: #dee2e6;
-          margin-bottom: 1rem;
+        .empty-state .display-icon {
+          font-size: 5rem;
+          background: var(--gradient-primary);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          margin-bottom: 2rem;
+          opacity: 0.7;
+          animation: float 3s ease-in-out infinite;
         }
+
+        /* Améliorations responsives */
+        @media (max-width: 768px) {
+          .main-container {
+            padding-top: 0.5rem;
+          }
+          
+          .card {
+            margin-bottom: 1rem;
+            border-radius: 12px;
+          }
+          
+          .stats-card .card-body {
+            padding: 2rem 1.5rem;
+          }
+          
+          .stats-card h3 {
+            font-size: 2rem;
+          }
+          
+          .quote-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            padding-left: 1.5rem;
+          }
+          
+          .quote-text::before {
+            font-size: 2rem;
+            top: -5px;
+          }
+          
+          .search-box {
+            padding: 0.7rem 1rem;
+            font-size: 0.9rem;
+          }
+          
+          .table thead th,
+          .table tbody td {
+            padding: 0.75rem 0.5rem;
+            font-size: 0.875rem;
+          }
+          
+          .log-container {
+            height: 250px;
+            padding: 1rem;
+            font-size: 0.8rem;
+          }
+          
+          .progress {
+            height: 24px;
+          }
+          
+          .btn {
+            font-size: 0.8rem;
+            padding: 0.5rem 1rem;
+          }
+          
+          .modal-header,
+          .modal-body,
+          .modal-footer {
+            padding: 1.5rem;
+          }
+        }
+
+        @media (max-width: 576px) {
+          .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+          }
+          
+          .card-header {
+            padding: 1rem;
+          }
+          
+          .stats-card .card-body {
+            padding: 1.5rem 1rem;
+          }
+          
+          .btn-group .btn {
+            padding: 0.25rem 0.4rem;
+            font-size: 0.75rem;
+          }
+        }
+
+        /* États de chargement */
+        .loading-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(255, 255, 255, 0.9);
+          backdrop-filter: blur(5px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: inherit;
+          z-index: 10;
+        }
+
+        .spinner-custom {
+          width: 3rem;
+          height: 3rem;
+          border: 0.3rem solid transparent;
+          border-top: 0.3rem solid var(--bs-primary);
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        /* Amélioration du fil d'Ariane */
+        .breadcrumb {
+          background: none;
+          padding: 0;
+          margin-bottom: 2rem;
+        }
+
+        .breadcrumb-item {
+          font-weight: 500;
+        }
+
+        .breadcrumb-item + .breadcrumb-item::before {
+          content: "❯";
+          font-weight: 600;
+          color: var(--bs-primary);
+        }
+
+        .breadcrumb-item a {
+          color: var(--bs-primary);
+          text-decoration: none;
+          transition: all 0.3s ease;
+        }
+
+        .breadcrumb-item a:hover {
+          color: var(--bs-dark);
+          text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Classes d'animation supplémentaires */
+        .slide-in-left {
+          animation: slideInLeft 0.5s ease-out;
+        }
+
+        .slide-in-right {
+          animation: slideInRight 0.5s ease-out;
+        }
+
+        .fade-in-up {
+          animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes slideInLeft {
+          from { transform: translateX(-100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+          from { transform: translateY(30px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Animation décalée pour les listes */
+        .stagger-animation > * {
+          animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+        .stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
+        .stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
+        .stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }
+        .stagger-animation > *:nth-child(5) { animation-delay: 0.5s; }
+
+        /* Amélioration des info-bulles */
+        .tooltip {
+          --bs-tooltip-bg: var(--bs-dark);
+          --bs-tooltip-border-radius: 8px;
+        }
+
+        /* Indicateurs de focus */
+        .form-control:focus,
+        .form-select:focus,
+        .btn:focus {
+          outline: 2px solid var(--bs-primary);
+          outline-offset: 2px;
+        }
+        /* Styles pour les cartes mobiles */
+.quotes-mobile-container {
+    margin: 0 -0.5rem;
+}
+
+.quote-mobile-card {
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.quote-mobile-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+.quote-mobile-card .quote-text p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #495057;
+}
+
+.quote-mobile-card .blockquote-footer cite {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Amélioration du tableau desktop */
+.quote-row:hover {
+    background-color: #f8f9fa;
+}
+
+.quote-preview {
+    cursor: pointer;
+}
+
+.quote-text-col {
+    min-width: 300px;
+}
+
+.author-col {
+    min-width: 150px;
+}
+
+.tags-col {
+    min-width: 200px;
+}
+
+.date-col {
+    min-width: 120px;
+}
+
+.actions-col {
+    min-width: 140px;
+    white-space: nowrap;
+}
+
+.tag-badge {
+    background-color: #e9ecef;
+    color: #495057;
+    font-size: 0.75rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .quotes-section .table-responsive {
+        display: none;
+    }
+    
+    .quotes-mobile-container {
+        display: block;
+    }
+}
+
+@media (min-width: 768px) {
+    .quotes-mobile-container {
+        display: none;
+    }
+}
     </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 <i class="fas fa-quote-left me-2"></i>
                 QuoteScraper
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Basculer la navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link active" href="#dashboard" id="nav-dashboard">
-                            <i class="fas fa-tachometer-alt me-1"></i>Tableau de bord
+                            <i class="fas fa-tachometer-alt me-2"></i>
+                            <span class="d-none d-lg-inline">Tableau de bord</span>
+                            <span class="d-lg-none">Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#quotes" id="nav-quotes">
-                            <i class="fas fa-quote-right me-1"></i>Citations
+                            <i class="fas fa-quote-right me-2"></i>
+                            Citations
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#scraper" id="nav-scraper">
-                            <i class="fas fa-spider me-1"></i>Web Scraper
+                            <i class="fas fa-spider me-2"></i>
+                            <span class="d-none d-lg-inline">Web Scraper</span>
+                            <span class="d-lg-none">Scraper</span>
                         </a>
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <button class="btn btn-outline-light" onclick="exportQuotes()">
-                        <i class="fas fa-download me-1"></i>Exporter
+                    <button class="btn btn-outline-light btn-sm" onclick="exportQuotes()" 
+                            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Exporter les données">
+                        <i class="fas fa-download me-1"></i>
+                        <span class="d-none d-md-inline">Exporter</span>
                     </button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Dashboard Section -->
-            <div id="dashboard-section" class="col-12">
-                <div class="container mt-4">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Accueil</a></li>
-                            <li class="breadcrumb-item active">Tableau de bord</li>
-                        </ol>
-                    </nav>
-                    
-                    <!-- Statistics Cards -->
-                    <div class="row mb-4">
-                        <div class="col-md-4">
-                            <div class="card stats-card text-center">
-                                <div class="card-body">
-                                    <i class="fas fa-quote-left fa-2x mb-2"></i>
-                                    <h3 class="card-title" id="total-quotes">0</h3>
-                                    <p class="card-text">Citations</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card stats-card text-center">
-                                <div class="card-body">
-                                    <i class="fas fa-user fa-2x mb-2"></i>
-                                    <h3 class="card-title" id="total-authors">0</h3>
-                                    <p class="card-text">Auteurs</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card stats-card text-center">
-                                <div class="card-body">
-                                    <i class="fas fa-tags fa-2x mb-2"></i>
-                                    <h3 class="card-title" id="total-tags">0</h3>
-                                    <p class="card-text">Tags</p>
-                                </div>
+    <!-- Contenu principal -->
+    <div class="container-fluid main-container">
+        <!-- Section Tableau de bord -->
+        <div id="dashboard-section" class="col-12">
+            <div class="container mt-4">
+                <nav aria-label="fil d'Ariane">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#" class="text-decoration-none">
+                                <i class="fas fa-home me-1"></i>Accueil
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">Tableau de bord</li>
+                    </ol>
+                </nav>
+                
+                <!-- Cartes de statistiques -->
+                <div class="row mb-5 stagger-animation">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card stats-card text-center h-100">
+                            <div class="card-body">
+                                <i class="fas fa-quote-left fa-4x mb-3"></i>
+                                <h3 class="card-title mb-2" id="total-quotes">0</h3>
+                                <p class="card-text mb-0 opacity-90">Citations</p>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Recent Quotes -->
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card stats-card text-center h-100">
+                            <div class="card-body">
+                                <i class="fas fa-user-edit fa-4x mb-3"></i>
+                                <h3 class="card-title mb-2" id="total-authors">0</h3>
+                                <p class="card-text mb-0 opacity-90">Auteurs</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <div class="card stats-card text-center h-100">
+                            <div class="card-body">
+                                <i class="fas fa-tags fa-4x mb-3"></i>
+                                <h3 class="card-title mb-2" id="total-tags">0</h3>
+                                <p class="card-text mb-0 opacity-90">Tags</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Citations récentes -->
+                <div class="card slide-in-left">
+                    <div class="card-header">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                            <h5 class="mb-2 mb-md-0">
                                 <i class="fas fa-quote-left me-2"></i>Citations Récentes
                             </h5>
-                            <button class="btn btn-primary btn-sm" onclick="showAddQuoteModal()">
-                                <i class="fas fa-plus me-1"></i>Ajouter
+                            <button class="btn btn-primary" onclick="showAddQuoteModal()"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Ajouter une nouvelle citation">
+                                <i class="fas fa-plus me-2"></i>
+                                <span class="d-none d-sm-inline">Ajouter une citation</span>
+                                <span class="d-sm-none">Ajouter</span>
                             </button>
                         </div>
-                        <div class="card-body" id="recent-quotes">
-                            <!-- Recent quotes will be loaded here -->
+                    </div>
+                    <div class="card-body" id="recent-quotes">
+                        <div class="text-center p-5">
+                            <div class="spinner-custom mx-auto"></div>
+                            <p class="mt-3 text-muted">Chargement des citations...</p>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Quotes Section -->
-            <div id="quotes-section" class="col-12" style="display: none;">
-                <div class="container mt-4">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Accueil</a></li>
-                            <li class="breadcrumb-item active">Citations</li>
-                        </ol>
-                    </nav>
-                    
-                    <!-- Search and Filters -->
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control search-box" id="search-input" placeholder="Rechercher des citations...">
+        <!-- Section Citations -->
+        <div id="quotes-section" class="col-12" style="display: none;">
+            <div class="container mt-4">
+                <nav aria-label="fil d'Ariane">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#" class="text-decoration-none">
+                                <i class="fas fa-home me-1"></i>Accueil
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">Citations</li>
+                    </ol>
+                </nav>
+                
+                <!-- Recherche et filtres -->
+                <div class="card search-filters-card mb-4">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-lg-4 col-md-6">
+                                <input type="text" class="form-control search-box" id="search-input" 
+                                       placeholder="Rechercher dans les citations...">
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <select class="form-select" id="author-filter">
+                                    <option value="">👤 Tous les auteurs</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <select class="form-select" id="tag-filter">
+                                    <option value="">Tous les tags</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-6">
+                                <button class="btn btn-primary w-100" onclick="showAddQuoteModal()">
+                                    <i class="fas fa-plus me-1"></i>
+                                    <span class="d-none d-lg-inline">Ajouter</span>
+                                    <span class="d-lg-none">+</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tableau des citations -->
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0" id="quotes-table">
+                                <thead>
+                                    <tr>
+                                        <th>Citation</th>
+                                        <th class="d-none d-md-table-cell">Auteur</th>
+                                        <th class="d-none d-lg-table-cell">Tags</th>
+                                        <th class="d-none d-xl-table-cell">Date</th>
+                                        <th width="120">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Les citations seront chargées ici -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div class="p-3 border-top">
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                                <div class="mb-2 mb-md-0">
+                                    <small class="text-muted" id="pagination-info">
+                                        Affichage de 0 citations
+                                    </small>
                                 </div>
-                                <div class="col-md-3">
-                                    <select class="form-select" id="author-filter">
-                                        <option value="">Tous les auteurs</option>
-                                    </select>
+                                <nav aria-label="Navigation des pages">
+                                    <ul class="pagination pagination-sm mb-0" id="pagination-container">
+                                        <!-- La pagination sera générée ici -->
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Scraper -->
+        <div id="scraper-section" class="col-12" style="display: none;">
+            <div class="container mt-4">
+                <nav aria-label="fil d'Ariane">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="#" class="text-decoration-none">
+                                <i class="fas fa-home me-1"></i>Accueil
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">Web Scraper</li>
+                    </ol>
+                </nav>
+                
+                <!-- Contrôles du scraper -->
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-cog me-2"></i>Configuration
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="max-pages" class="form-label">Nombre de pages</label>
+                                    <input type="number" class="form-control" id="max-pages" 
+                                           value="10" min="1" max="100">
+                                    <div class="form-text">Maximum: 100 pages</div>
                                 </div>
-                                <div class="col-md-3">
-                                    <select class="form-select" id="tag-filter">
-                                        <option value="">Tous les tags</option>
-                                    </select>
+                                
+                                <div class="mb-3">
+                                    <label for="delay" class="form-label">Délai (ms)</label>
+                                    <input type="number" class="form-control" id="delay" 
+                                           value="1000" min="500" max="5000" step="500">
+                                    <div class="form-text">Entre 500ms et 5s</div>
                                 </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-primary w-100" onclick="showAddQuoteModal()">
-                                        <i class="fas fa-plus me-1"></i>Ajouter
+                                
+                                <div class="mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" 
+                                               id="skip-existing" checked>
+                                        <label class="form-check-label" for="skip-existing">
+                                            Ignorer les citations existantes
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-success" id="start-scraping" onclick="startScraping()">
+                                        <i class="fas fa-play me-1"></i>Démarrer le Scraping
+                                    </button>
+                                    <button class="btn btn-danger d-none" id="stop-scraping" onclick="stopScraping()">
+                                        <i class="fas fa-stop me-1"></i>Arrêter le Scraping
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Quotes Table -->
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hover" id="quotes-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Citation</th>
-                                            <th>Auteur</th>
-                                            <th>Tags</th>
-                                            <th>Date</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Quotes will be loaded here -->
-                                    </tbody>
-                                </table>
+                    <div class="col-lg-8">
+                        <!-- Progression -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-chart-line me-2"></i>Progression
+                                </h5>
                             </div>
-                            
-                            <!-- Pagination -->
-                            <nav aria-label="Pagination des citations">
-                                <ul class="pagination justify-content-center">
-                                    <!-- Pagination will be generated here -->
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Scraper Section -->
-            <div id="scraper-section" class="col-12" style="display: none;">
-                <div class="container mt-4">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Accueil</a></li>
-                            <li class="breadcrumb-item active">Web Scraper</li>
-                        </ol>
-                    </nav>
-                    
-                    <!-- Scraper Configuration -->
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h5 class="mb-0">
-                                <i class="fas fa-cog me-2"></i>Configuration du Scraper
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-md-4">
-                                    <label for="max-pages" class="form-label">Nombre maximum de pages</label>
-                                    <input type="number" class="form-control" id="max-pages" value="10" min="1" max="50">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-muted">Progression</span>
+                                        <span id="progress-text">0%</span>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                             id="progress-bar" role="progressbar" style="width: 0%">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="delay" class="form-label">Délai entre les pages (ms)</label>
-                                    <input type="number" class="form-control" id="delay" value="1000" min="500" max="10000">
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-check mt-4">
-                                        <input class="form-check-input" type="checkbox" id="skip-existing" checked>
-                                        <label class="form-check-label" for="skip-existing">
-                                            Ignorer les citations existantes
-                                        </label>
+                                
+                                <div class="row text-center">
+                                    <div class="col-6 col-md-3">
+                                        <div class="border-end">
+                                            <h6 class="text-muted mb-1">Page actuelle</h6>
+                                            <h5 class="mb-0" id="current-page">0</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="border-end border-md-end">
+                                            <h6 class="text-muted mb-1">Citations trouvées</h6>
+                                            <h5 class="mb-0" id="quotes-found">0</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div class="border-end d-md-block">
+                                            <h6 class="text-muted mb-1">Nouvelles</h6>
+                                            <h5 class="mb-0" id="new-quotes">0</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3">
+                                        <div>
+                                            <h6 class="text-muted mb-1">Erreurs</h6>
+                                            <h5 class="mb-0" id="errors-count">0</h5>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-3">
-                                <button class="btn btn-success" id="start-scraper" onclick="startScraping()">
-                                    <i class="fas fa-play me-1"></i>Démarrer le Scraping
-                                </button>
-                                <button class="btn btn-danger" id="stop-scraper" onclick="stopScraping()" disabled>
-                                    <i class="fas fa-stop me-1"></i>Arrêter
-                                </button>
+                        </div>
+                        
+                        <!-- Logs -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-terminal me-2"></i>Logs en temps réel
+                                </h5>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Scraper Progress -->
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h5 class="mb-0">
-                                <i class="fas fa-chart-line me-2"></i>Progression
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row mb-3">
-                                <div class="col-md-3">
-                                    <div class="text-center">
-                                        <h4 id="current-page">0</h4>
-                                        <small class="text-muted">Page actuelle</small>
+                            <div class="card-body p-0">
+                                <div class="log-container" id="log-container">
+                                    <!-- Les logs seront affichés ici -->
+                                    <div class="text-center text-muted mt-5">
+                                        <i class="fas fa-terminal fa-2x mb-3"></i>
+                                        <p>En attente du démarrage du scraping...</p>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="text-center">
-                                        <h4 id="quotes-found">0</h4>
-                                        <small class="text-muted">Citations trouvées</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="text-center">
-                                        <h4 id="new-quotes">0</h4>
-                                        <small class="text-muted">Nouvelles citations</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="text-center">
-                                        <h4 id="scraper-errors">0</h4>
-                                        <small class="text-muted">Erreurs</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="progress mb-3">
-                                <div class="progress-bar" id="scraper-progress" role="progressbar" style="width: 0%"></div>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span id="scraper-status" class="text-muted">En attente...</span>
-                                <span id="elapsed-time" class="text-muted">00:00</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Logs -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">
-                                <i class="fas fa-terminal me-2"></i>Logs du Scraper
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="log-container" id="scraper-logs">
-                                <div class="text-muted">En attente du démarrage du scraper...</div>
                             </div>
                         </div>
                     </div>
@@ -459,76 +1243,84 @@
         </div>
     </div>
 
-    <!-- Add/Edit Quote Modal -->
-    <div class="modal fade" id="quoteModal" tabindex="-1">
-        <div class="modal-dialog">
+    <!-- Modal Ajouter/Modifier Citation -->
+    <div class="modal fade" id="quoteModal" tabindex="-1" aria-labelledby="quoteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Ajouter une nouvelle citation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <form id="quoteForm">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="quoteText" class="form-label">Citation *</label>
-                            <textarea class="form-control" id="quoteText" name="quoteText" rows="3" required></textarea>
-                            <div class="invalid-feedback"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="authorName" class="form-label">Auteur *</label>
-                            <input type="text" class="form-control" id="authorName" name="authorName" required>
-                            <div class="invalid-feedback"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="quoteTags" class="form-label">Tags (séparés par des virgules)</label>
-                            <input type="text" class="form-control" id="quoteTags" name="quoteTags" placeholder="amour, vie, sagesse">
-                        </div>
-                        <div class="mb-3">
-                            <label for="sourceUrl" class="form-label">URL source</label>
-                            <input type="url" class="form-control" id="sourceUrl" name="sourceUrl">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button type="submit" class="btn btn-primary">Sauvegarder</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Quote Detail Modal -->
-    <div class="modal fade" id="quoteDetailModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Détails de la citation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <h5 class="modal-title" id="quoteModalLabel">
+                        <i class="fas fa-plus-circle me-2"></i>Ajouter une citation
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
                 </div>
                 <div class="modal-body">
-                    <blockquote class="blockquote text-center">
-                        <p class="mb-0" id="detail-quote-text"></p>
-                        <footer class="blockquote-footer mt-2">
-                            <cite id="detail-author-name"></cite>
-                        </footer>
-                    </blockquote>
-                    <div class="mt-3" id="detail-tags-container" style="display: none;">
-                        <strong>Tags:</strong>
-                        <div id="detail-tags"></div>
-                    </div>
-                    <div class="mt-3" id="detail-source-container" style="display: none;">
-                        <strong>Source:</strong>
-                        <a href="#" id="detail-source-url" target="_blank" class="ms-1"></a>
-                    </div>
-                    <div class="mt-3 text-muted">
-                        <small>
-                            Créé le <span id="detail-created-date"></span>
-                        </small>
-                    </div>
+                    <form id="quote-form">
+                        <input type="hidden" id="quote-id" value="">
+                        
+                        <div class="mb-4">
+                            <label for="quote-text" class="form-label">
+                                <i class="fas fa-quote-left me-1"></i>Texte de la citation *
+                            </label>
+                            <textarea class="form-control" id="quote-text" rows="4" 
+                                      placeholder="Entrez le texte de la citation..." required></textarea>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="quote-author" class="form-label">
+                                <i class="fas fa-user me-1"></i>Auteur *
+                            </label>
+                            <input type="text" class="form-control" id="quote-author" 
+                                   placeholder="Nom de l'auteur" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="quote-tags" class="form-label">
+                                <i class="fas fa-tags me-1"></i>Tags
+                            </label>
+                            <input type="text" class="form-control" id="quote-tags" 
+                                   placeholder="motivation, inspiration, vie (séparés par des virgules)">
+                            <div class="form-text">Séparez les tags par des virgules</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="quote-source" class="form-label">
+                                <i class="fas fa-link me-1"></i>URL source (optionnel)
+                            </label>
+                            <input type="url" class="form-control" id="quote-source" 
+                                   placeholder="https://exemple.com">
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary" onclick="editQuoteFromDetail()">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>Annuler
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="saveQuote()">
+                        <i class="fas fa-save me-1"></i>Enregistrer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Voir Citation -->
+    <div class="modal fade" id="viewQuoteModal" tabindex="-1" aria-labelledby="viewQuoteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewQuoteModalLabel">
+                        <i class="fas fa-eye me-2"></i>Détails de la citation
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body" id="view-quote-content">
+                    <!-- Le contenu de la citation sera affiché ici -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>Fermer
+                    </button>
+                    <button type="button" class="btn btn-primary" id="edit-from-view">
                         <i class="fas fa-edit me-1"></i>Modifier
                     </button>
                 </div>
@@ -536,34 +1328,18 @@
         </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Confirmer la suppression</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Êtes-vous sûr de vouloir supprimer cette citation ?</p>
-                    <div class="alert alert-warning">
-                        <strong>Attention :</strong> Cette action est irréversible.
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-danger" id="confirmDelete">
-                        <i class="fas fa-trash me-1"></i>Supprimer
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap JS -->
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Application JavaScript -->
     <script src="app.js"></script>
+    
+    <script>
+        // Initialisation des info-bulles Bootstrap
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
 </body>
 </html>
