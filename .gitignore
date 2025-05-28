@@ -1,0 +1,14 @@
+# Ignorer le dossier node_modules (les dépendances)
+node_modules/
+
+# Ignorer les logs
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Ignorer les fichiers d'environnement
+.env
+
+# Ignorer le dossier de cache
+.cache/
+dist/
